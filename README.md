@@ -1,5 +1,6 @@
 
 # Coffee Shop App
+## Mrinal Sharma, Sahil Khandelwal
 
 ## UML: Component ↔ Model
 ```mermaid
