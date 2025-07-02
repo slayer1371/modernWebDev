@@ -1,16 +1,33 @@
 
 # Coffee Shop App
-## Mrinal Sharma, Sahil Khandelwal
 
-## UML: Component ↔ Model
+#: Component ↔ Model
 ```mermaid
 classDiagram
     App <|-- HomePage
     App <|-- MenuPage
     App <|-- CartPage
-    MenuPage <|-- MenuList
-    MenuPage ..> CoffeeModel : uses
+    MenuPage <|-- CoffeeService
+    CoffeeService ..> CoffeeModelService
+```
 
+## UML
+```mermaid
+
+classDiagram
+    class Coffee {
+        +id: string
+        +name: string
+        +description: string
+        +price: number
+        +reviews: CoffeeReview[]
+    }
+    class CoffeeReview {
+        +id: string
+        +rating: number
+        +text: string
+    }
+    Coffee "1" o-- "*" CoffeeReview : reviews
 ```
 
 # React + Vite
