@@ -11,11 +11,3 @@ classDiagram
     MenuPage <|-- MenuList
     MenuPage ..> CoffeeModel : uses
 
-
-App
-├─ Navbar
-└─ Routes
-   ├ HomePage
-   ├ MenuPage
-   │  └ MenuList
-   └ CartPage
