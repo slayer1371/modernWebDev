@@ -2,7 +2,7 @@
 # Coffee Shop App
 ## Mrinal Sharma Sahil Khandelwal
 
-## Component ↔ Model
+## Component Tree Diagram
 ```mermaid
 classDiagram
     App <|-- HomePage
