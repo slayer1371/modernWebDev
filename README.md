@@ -9,5 +9,13 @@ classDiagram
     App <|-- MenuPage
     App <|-- CartPage
     MenuPage <|-- MenuList
-    CartPage <|-- CartItemList
     MenuPage ..> CoffeeModel : uses
+
+
+App
+├─ Navbar
+└─ Routes
+   ├ HomePage
+   ├ MenuPage
+   │  └ MenuList
+   └ CartPage
