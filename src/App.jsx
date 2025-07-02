@@ -5,8 +5,11 @@ import HomePage from './components/HomePage';
 import MenuPage from './components/MenuPage';
 import CartPage from './components/CartPage';
 
-import './App.css';  // has >5 comments and basic styles
-import './parseConfig'; // initializes Parse
+import { env_vars } from "./environments";
+import Parse from "parse";
+
+Parse.initialize(env_vars.applicationId, env_vars.javaScriptKey);
+Parse.serverURL = env_vars.serverURL;
 
 function App() {
   return (

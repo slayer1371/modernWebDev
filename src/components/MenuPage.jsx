@@ -11,13 +11,13 @@ function MenuPage() {
     const getCoffees = async () => {
       try {
         const fetchedCoffees = await fetchCoffees();
-        console.log(fetchedCoffees); // This will log your coffee data
+        console.log(fetchedCoffees); // This will log coffee data
         setCoffees(fetchedCoffees);
-      } catch (err) {
+      } catch (err) { 
         console.error("Failed to fetch coffees:", err);
         setError(err); // Set the error state
       } finally {
-        setLoading(false); // Always set loading to false after the operation
+        setLoading(false); // Set loading to false after the operation
       }
     };
 
@@ -53,13 +53,31 @@ function MenuPage() {
               textAlign: "center",
             }}
           >
-            {/* Make sure coffee.imageUrl exists in your Parse data or provide a fallback */}
             <h2>{coffee.name}</h2>
-            <p>{coffee.description?.substring(0, 70)}...</p>{" "}
+            <p>{coffee.description}</p>{" "}
             {/* Optional chaining for safety */}
             <p style={{ fontWeight: "bold" }}>
               Price: ${coffee.price ? coffee.price.toFixed(2) : "N/A"}
             </p>
+
+            {/* Display Reviews Section */}
+            {coffee.reviews && coffee.reviews.length > 0 && (
+              <div style={{ marginTop: '15px', borderTop: '1px dashed #eee', paddingTop: '10px' }}>
+                <h4 style={{ marginBottom: '5px' }}>Reviews:</h4>
+                {coffee.reviews.map((review) => (
+                  <div key={review.id} style={{ fontSize: '0.9em', marginBottom: '5px', background: '#f9f9f9', padding: '8px', borderRadius: '5px' }}>
+                    <p>
+                      <strong>Rating: {review.rating} / 5</strong>
+                    </p>
+                    <p style={{ fontStyle: 'italic' }}>"{review.text}"</p>
+                  </div>
+                ))}
+              </div>
+            )}
+            {coffee.reviews && coffee.reviews.length === 0 && (
+              <p style={{ marginTop: '15px', color: '#888', fontSize: '0.9em' }}>No reviews yet.</p>
+            )}
+            
             <Link
               to={`/menu/${coffee.id}`}
               style={{
@@ -72,7 +90,7 @@ function MenuPage() {
                 borderRadius: "5px",
               }}
             >
-              View Details
+              View Details {/* Doesn't work right now :) */}
             </Link>
             <button
               style={{
@@ -84,7 +102,7 @@ function MenuPage() {
                 borderRadius: "5px",
                 cursor: "pointer",
               }}
-              // You'd typically add an onClick handler here for "Add to Cart"
+              // We'll add an onClick handler here for "Add to Cart"
               onClick={() => console.log(`Added ${coffee.name} to cart!`)}
             >
               Add to Cart
