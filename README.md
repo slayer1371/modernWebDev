@@ -1,7 +1,8 @@
 
 # Coffee Shop App
+## Mrinal Sharma Sahil Khandelwal
 
-#: Component ↔ Model
+## Component ↔ Model
 ```mermaid
 classDiagram
     App <|-- HomePage
