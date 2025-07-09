@@ -1,0 +1,212 @@
+// import { useEffect, useState } from "react";
+// import { LoginUser } from "../hooks/AuthService.jsx";
+
+// const AuthLogin = () => {
+//   // State to hold the login credentials
+//   const [userCredentials, setUserCredentials] = useState({
+//     email: "",
+//     password: "",
+//   });
+
+//   // A flag to trigger the login attempt
+//   const [login, setLogin] = useState(false);
+
+//   useEffect(() => {
+//     if (userCredentials.email && userCredentials.password && login) {
+//       LoginUser({
+//         username: userCredentials.email,
+//         password: userCredentials.password,
+//       })
+//         .then((userLoggedIn) => {
+//           if (userLoggedIn) {
+//             alert(`Welcome back, ${userLoggedIn.get("firstName")}!`);
+
+//             console.log("User logged in:", userLoggedIn);
+//           }
+//           setLogin(false);
+//         })
+//         .catch((error) => {
+//           console.error("Login failed:", error);
+//           setLogin(false);
+//         });
+//     }
+//   }, [userCredentials, login]);
+
+//   const onChangeHandler = (e) => {
+//     e.preventDefault();
+//     const { name, value: newValue } = e.target;
+//     setUserCredentials({ ...userCredentials, [name]: newValue });
+//   };
+
+//   const onSubmitHandler = (e) => {
+//     e.preventDefault();
+//     console.log("Login submitted: ", userCredentials);
+//     setLogin(true);
+//   };
+
+//   return (
+//     <div>
+//       <h1>Login</h1>
+//       <form onSubmit={onSubmitHandler}>
+//         <div className="form-group">
+//           <label>Email</label>
+//           <input
+//             type="email"
+//             className="form-control"
+//             id="email"
+//             name="email"
+//             value={userCredentials.email}
+//             onChange={onChangeHandler}
+//             required
+//           />
+//         </div>
+//         <div className="form-group">
+//           <label>Password</label>
+//           <input
+//             type="password"
+//             className="form-control"
+//             id="password"
+//             name="password"
+//             value={userCredentials.password}
+//             onChange={onChangeHandler}
+//             required
+//           />
+//         </div>
+//         <div className="form-group">
+//           <button type="submit" className="btn btn-primary" disabled={login}>
+//             Login
+//           </button>
+//         </div>
+//       </form>
+//     </div>
+//   );
+// };
+
+// export default AuthLogin;
+
+import { useEffect, useState } from "react";
+import { LoginUser } from "../hooks/AuthService.jsx";
+import { useNavigate } from "react-router-dom"; // Added for potential future navigation, though not used in the provided logic
+
+const AuthLogin = () => {
+  // State to hold the login credentials
+  const [userCredentials, setUserCredentials] = useState({
+    email: "",
+    password: "",
+  });
+
+  // A flag to trigger the login attempt
+  const [login, setLogin] = useState(false); // Original login state
+
+  // New states for UI feedback (loading and messages)
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState("");
+
+  const navigate = useNavigate(); // Initialize navigate hook (not used in provided logic, but kept for context)
+
+  useEffect(() => {
+    if (userCredentials.email && userCredentials.password && login) {
+      setLoading(true); // Start loading when login attempt begins
+      setMessage(""); // Clear any previous messages
+
+      LoginUser({
+        username: userCredentials.email,
+        password: userCredentials.password,
+      })
+        .then((userLoggedIn) => {
+          if (userLoggedIn) {
+            // Replaced alert with setMessage for better UI
+            setMessage(`Welcome back, ${userLoggedIn.get("firstName")}!`);
+            console.log("User logged in:", userLoggedIn);
+            // Example: localStorage.setItem("token", userLoggedIn.getSessionToken());
+            // navigate("/blogs"); // Uncomment if you want to redirect after login
+          } else {
+            setMessage("Login failed. Please check your credentials.");
+          }
+          setLogin(false); // Reset original login flag
+        })
+        .catch((error) => {
+          console.error("Login failed:", error);
+          // Set error message for display
+          setMessage(`Login failed: ${error.message || "An unexpected error occurred."}`);
+          setLogin(false); // Reset original login flag
+        })
+        .finally(() => {
+          setLoading(false); // Stop loading regardless of success or failure
+        });
+    }
+  }, [userCredentials, login, navigate]); // navigate added to dependency array for correctness
+
+  const onChangeHandler = (e) => {
+    e.preventDefault();
+    const { name, value: newValue } = e.target;
+    setUserCredentials({ ...userCredentials, [name]: newValue });
+  };
+
+  const onSubmitHandler = (e) => {
+    e.preventDefault();
+    console.log("Login submitted: ", userCredentials);
+    setLogin(true); // Trigger the useEffect for login
+  };
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 to-gray-700 flex items-center justify-center p-4 sm:p-6">
+      <div className="bg-white p-8 rounded-lg shadow-2xl w-full max-w-md border border-gray-200">
+        <h1 className="text-3xl font-bold text-center text-gray-800 mb-8">Login</h1>
+        <form onSubmit={onSubmitHandler} className="space-y-6">
+          <div className="form-group">
+            <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">Email</label>
+            <input
+              type="email"
+              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 text-gray-900"
+              id="email"
+              name="email"
+              value={userCredentials.email}
+              onChange={onChangeHandler}
+              required
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">Password</label>
+            <input
+              type="password"
+              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 text-gray-900"
+              id="password"
+              name="password"
+              value={userCredentials.password}
+              onChange={onChangeHandler}
+              required
+            />
+          </div>
+          <div className="form-group">
+            <button
+              type="submit"
+              className="w-full bg-blue-600 text-white font-semibold py-2.5 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors duration-200"
+              disabled={login || loading} // Disable button if login is in progress or loading
+            >
+              Login
+            </button>
+          </div>
+        </form>
+
+        {/* Display loading indicator */}
+        {loading && (
+          <div className="mt-4 text-center text-blue-600 font-medium">
+            Logging in...
+          </div>
+        )}
+
+        {/* Display success/error messages */}
+        {message && (
+          <div className={`mt-4 text-center p-3 rounded-md ${
+            message.startsWith("Welcome") ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700"
+          }`}>
+            {message}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
+
+export default AuthLogin;
