@@ -7,6 +7,14 @@ import AuthModule from "./auth/Auth";
 import AuthRegister from "./auth/AuthRegister";
 import AuthLogin from "./auth/AuthLogin";
 import ProtectedRoute from "./components/ProtectedRoute";
+import Parse from "parse";
+
+function PublicRoute({ children }) {
+  if (Parse.User.current()) {
+    return <Navigate to="/" replace />;
+  }
+  return children;
+}
 
 export function Components() {
     return <div>
@@ -22,10 +30,21 @@ export function Components() {
               <CartPage />
             </ProtectedRoute>
           } />
-          {/* <Route path="*" element={<h2>404 - Not Found</h2>} /> */}
-          <Route path="/auth" element={<AuthModule />} />
-          <Route path="/register" element={<AuthRegister />} />
-          <Route path="/login" element={<AuthLogin />} />
+          <Route path="/auth" element={
+            <PublicRoute>
+              <AuthModule />
+            </PublicRoute>
+          } />
+          <Route path="/register" element={
+            <PublicRoute>
+              <AuthRegister />
+            </PublicRoute>
+          } />
+          <Route path="/login" element={
+            <PublicRoute>
+              <AuthLogin />
+            </PublicRoute>
+          } />
           <Route path="*" element={<Navigate to="/auth" replace />} />
         </Routes>
       </div>
