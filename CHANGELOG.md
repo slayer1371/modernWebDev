@@ -1,9 +1,12 @@
 # Changelog
 ## [0.3.0] – 2025-07-10
 ### Added
-- ProtectedRoute component and route guards for Cart/Menu
+- Feature 5 - Auth Module
+- Implemented Login and Register using Parse _User class.
+- ProtectedRoute component and route guards for CartPage.
 - PublicRoute to block auth pages when already logged in
 - Extracted auth logic into `useAuth` service
+- Used TailwindCSS to style all pages.
 
 ## [0.2.0] - 2025-07-02
 ### Added
