@@ -6,6 +6,7 @@ import CartPage from "./components/CartPage";
 import AuthModule from "./auth/Auth";
 import AuthRegister from "./auth/AuthRegister";
 import AuthLogin from "./auth/AuthLogin";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 export function Components() {
     return <div>
@@ -16,7 +17,11 @@ export function Components() {
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/menu" element={<MenuPage />} />
-          <Route path="/cart" element={<CartPage />} />
+          <Route path="/cart" element={
+            <ProtectedRoute>
+              <CartPage />
+            </ProtectedRoute>
+          } />
           {/* <Route path="*" element={<h2>404 - Not Found</h2>} /> */}
           <Route path="/auth" element={<AuthModule />} />
           <Route path="/register" element={<AuthRegister />} />

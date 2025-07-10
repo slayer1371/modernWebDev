@@ -6,7 +6,7 @@ const AuthForm = ({ user, onChange, onSubmit }) => {
           {user.isLogin ? "Sign In" : "Sign Up"}
         </h2>
         <form onSubmit={onSubmit} className="space-y-6">
-          {/* First Name Field (only for signup) */}
+          
           {!user.isLogin && ( // Assuming 'isLogin' prop determines if it's a login or signup form
             <div>
               <label htmlFor="firstName" className="block text-sm font-medium text-gray-700 mb-1">
@@ -25,7 +25,6 @@ const AuthForm = ({ user, onChange, onSubmit }) => {
             </div>
           )}
 
-          {/* Last Name Field (only for signup) */}
           {!user.isLogin && (
             <div>
               <label htmlFor="lastName" className="block text-sm font-medium text-gray-700 mb-1">
@@ -44,7 +43,6 @@ const AuthForm = ({ user, onChange, onSubmit }) => {
             </div>
           )}
 
-          {/* Email Field */}
           <div>
             <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
               Email
@@ -61,7 +59,6 @@ const AuthForm = ({ user, onChange, onSubmit }) => {
             />
           </div>
 
-          {/* Password Field */}
           <div>
             <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
               Password
@@ -74,7 +71,6 @@ const AuthForm = ({ user, onChange, onSubmit }) => {
               name="password"
               placeholder="Enter your password"
               className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 text-gray-900"
-              min="0" // Note: min attribute on password input is unusual, usually for numbers. Consider removing or clarifying its purpose.
               required
             />
           </div>

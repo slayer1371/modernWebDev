@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { fetchCoffees } from "../hooks/CoffeeService";
+import { addToCart } from "../hooks/CoffeeModelService";
+import Parse from "parse";
 
 function MenuPage() {
   const [coffees, setCoffees] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [cartMessage, setCartMessage] = useState("");
 
   useEffect(() => {
     const getCoffees = async () => {
@@ -23,6 +26,22 @@ function MenuPage() {
     getCoffees();
   }, []); // The empty dependency array ensures this runs once on mount
 
+  const handleAddToCart = async (coffeeId, coffeeName) => {
+    setCartMessage("");
+    try {
+      const user = Parse.User.current();
+      if (!user) {
+        setCartMessage("You must be logged in to add to cart.");
+        return;
+      }
+      await addToCart(user, coffeeId);
+      setCartMessage(`Added ${coffeeName} to cart!`);
+    } catch (err) {
+      setCartMessage("Failed to add to cart. Please try again.");
+      console.error(err);
+    }
+  };
+
   if (loading) return <div>Loading menu...</div>;
   if (error) return <div>Error loading menu: {error.message}</div>;
   if (coffees.length === 0)
@@ -35,6 +54,9 @@ function MenuPage() {
   return (
     <div className="container mx-auto p-4 sm:p-6 lg:p-8">
       <h1 className="text-4xl font-extrabold text-center text-gray-900 mb-8 tracking-tight">Our Coffee Menu</h1>
+      {cartMessage && (
+        <div className="mb-4 text-center text-green-700 bg-green-100 p-2 rounded">{cartMessage}</div>
+      )}
       <div
         className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"
       >
@@ -78,7 +100,7 @@ function MenuPage() {
               </Link> */}
               <button
                 className="px-5 py-2 bg-green-600 text-white font-medium rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-colors duration-200"
-                onClick={() => console.log(`Added ${coffee.name} to cart!`)}
+                onClick={() => handleAddToCart(coffee.id, coffee.name)}
               >
                 Add to Cart
               </button>
