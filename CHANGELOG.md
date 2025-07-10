@@ -1,4 +1,9 @@
 # Changelog
+## [0.3.0] – 2025-07-10
+### Added
+- ProtectedRoute component and route guards for Cart/Menu
+- PublicRoute to block auth pages when already logged in
+- Extracted auth logic into `useAuth` service
 
 ## [0.2.0] - 2025-07-02
 ### Added
