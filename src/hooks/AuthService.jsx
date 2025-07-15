@@ -38,4 +38,5 @@ export const LoginUser = async (credentials) => {
       alert(`Error: ${error.message}`);
       throw error; // Re-throw the error so the caller can handle it
     });
-};
+}; 
+

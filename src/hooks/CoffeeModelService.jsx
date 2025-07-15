@@ -36,3 +36,30 @@ export const getUserCart = async (user) => {
   const cart = await query.first();
   return cart;
 };
+
+export const createOrderFromCart = async (user, cartItems) => {
+  const Order = Parse.Object.extend('Order');
+  const order = new Order();
+  order.set('user', user);
+  order.set('items', cartItems);
+  order.set('status', 'In Progress');
+  await order.save();
+  return order;
+};
+
+export const fetchInProgressOrders = async () => {
+  const Order = Parse.Object.extend('Order');
+  const query = new Parse.Query(Order);
+  query.equalTo('status', 'In Progress');
+  query.include('user');
+  return await query.find();
+};
+
+export const markOrderReady = async (orderId) => {
+  const Order = Parse.Object.extend('Order');
+  const query = new Parse.Query(Order);
+  const order = await query.get(orderId);
+  order.set('status', 'Ready');
+  await order.save();
+  return order;
+};

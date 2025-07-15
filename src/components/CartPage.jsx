@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Parse from "parse"; 
-import { getUserCart } from "../hooks/CoffeeModelService"; 
+import { getUserCart, createOrderFromCart } from "../hooks/CoffeeModelService"; 
 import { Link } from "react-router-dom";
 
 function CartPage() {
@@ -8,6 +8,7 @@ function CartPage() {
   const [error, setError] = useState(null);
   const [items, setItems] = useState([]);
   const [total, setTotal] = useState(0);
+  const [orderMessage, setOrderMessage] = useState("");
 
   useEffect(() => {
     const fetchCart = async () => {
@@ -82,6 +83,35 @@ function CartPage() {
     fetchCart();
   }, []); // Empty dependency array means this effect runs once on mount
 
+  const handleCheckout = async () => {
+    setOrderMessage("");
+    try {
+      const user = Parse.User.current();
+      if (!user) {
+        setOrderMessage("You must be logged in to checkout.");
+        return;
+      }
+      if (items.length === 0) {
+        setOrderMessage("Your cart is empty.");
+        return;
+      }
+      // Create order in Parse
+      await createOrderFromCart(user, items);
+      setOrderMessage("Order placed successfully! Thank you for your purchase.");
+      setItems([]);
+      setTotal(0);
+      // Optionally, clear the cart in Parse as well
+      const cartObj = await getUserCart(user);
+      if (cartObj) {
+        cartObj.set("items", []);
+        await cartObj.save();
+      }
+    } catch (err) {
+      setOrderMessage("Failed to place order. Please try again.");
+      console.error("Checkout error:", err);
+    }
+  };
+
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-screen bg-gray-100">
@@ -105,6 +135,12 @@ function CartPage() {
       <h1 className="text-4xl font-extrabold text-center text-gray-900 mb-8 tracking-tight">
         Your Shopping Cart
       </h1>
+
+      {orderMessage && (
+        <div className="text-center py-3 px-4 rounded-lg mx-auto mt-4 max-w-md bg-green-100 text-green-800">
+          {orderMessage}
+        </div>
+      )}
 
       {items.length === 0 ? (
         <div className="text-center text-xl text-gray-600 py-10">
@@ -154,7 +190,7 @@ function CartPage() {
             {/* Checkout Button */}
             <button
               className="ml-6 px-8 py-3 bg-indigo-600 text-white font-semibold rounded-lg shadow-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50 transition duration-150 ease-in-out"
-              onClick={() => console.log("Proceed to Checkout!")}
+              onClick={handleCheckout}
             >
               Proceed to Checkout
             </button>

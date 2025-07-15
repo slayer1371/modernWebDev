@@ -1,4 +1,4 @@
-import { BrowserRouter, Navigate, Route, Router, Routes } from "react-router-dom";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import HomePage from "./components/HomePage";
 import MenuPage from "./components/MenuPage";
@@ -8,6 +8,10 @@ import AuthRegister from "./auth/AuthRegister";
 import AuthLogin from "./auth/AuthLogin";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Parse from "parse";
+import AdminRoute from "./auth/admin/AdminRoute";
+import AdminOrders from "./auth/admin/AdminOrders";
+import MyOrders from "./components/Myorder";
+
 
 function PublicRoute({ children }) {
   if (Parse.User.current()) {
@@ -30,6 +34,11 @@ export function Components() {
               <CartPage />
             </ProtectedRoute>
           } />
+          <Route path="/my-orders" element={
+            <ProtectedRoute>
+              <MyOrders />
+            </ProtectedRoute>
+          } />
           <Route path="/auth" element={
             <PublicRoute>
               <AuthModule />
@@ -44,6 +53,11 @@ export function Components() {
             <PublicRoute>
               <AuthLogin />
             </PublicRoute>
+          } />
+          <Route path="/admin/orders" element={
+            <AdminRoute>
+              <AdminOrders />
+            </AdminRoute>
           } />
           <Route path="*" element={<Navigate to="/auth" replace />} />
         </Routes>

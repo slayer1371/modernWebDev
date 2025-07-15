@@ -37,6 +37,14 @@ function Navbar() {
               Cart
             </Link>
           </li>
+          <li>
+            <Link to="/my-orders" 
+                          className="text-white text-lg font-medium hover:text-amber-400 transition-colors duration-200"
+
+                          >
+              My Orders
+            </Link>
+          </li>
         </ul>
 
         <div className="flex items-center"> 
