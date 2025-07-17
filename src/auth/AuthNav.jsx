@@ -8,7 +8,6 @@ const AuthModule = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Listen for login/logout changes
     const interval = setInterval(() => {
       setIsLoggedIn(!!Parse.User.current());
     }, 1000);
@@ -16,9 +15,9 @@ const AuthModule = () => {
   }, []);
 
   const handleLogout = async () => {
-    await logout(); // Calling the logout function from useAuth hook
-    setIsLoggedIn(false); // Update local state
-    navigate("/"); // Redirect to home page after logout
+    await logout(); 
+    setIsLoggedIn(false); 
+    navigate("/"); 
   };
 
   if (isLoggedIn) {

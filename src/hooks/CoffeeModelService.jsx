@@ -1,4 +1,3 @@
-// CoffeeModel.jsx
 import Parse from "parse";
  export const fetchAllWithReviews = () => {
     const Coffee = Parse.Object.extend('Coffee');

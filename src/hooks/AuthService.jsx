@@ -22,7 +22,7 @@ export function Register(newUser) {
 };
 
 export const LoginUser = async (credentials) => {
-  const { username, password } = await credentials; // Expect an object with username and password
+  const { username, password } = await credentials; // Expectobject with username and password
 
   console.log("Attempting to log in user: ", username);
 
@@ -33,10 +33,10 @@ export const LoginUser = async (credentials) => {
       return userLoggedIn;
     })
     .catch((error) => {
-      // Error can be caused by wrong parameters or lack of Internet connection
-      console.error(`Error logging in: ${error.message}`); // Use console.error for errors
+      
+      console.error(`Error logging in: ${error.message}`); 
       alert(`Error: ${error.message}`);
-      throw error; // Re-throw the error so the caller can handle it
+      throw error;
     });
 }; 
 

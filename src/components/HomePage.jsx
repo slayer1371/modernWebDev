@@ -17,17 +17,17 @@ export function HomePage() {
             alt="Aromatic Coffee"
             className="w-full h-auto rounded-xl shadow-2xl transform transition-transform duration-500 hover:scale-105 border-4 border-amber-400"
             onError={(e) => {
-              e.currentTarget.src = "https://placehold.co/800x450/4B5563/FFFFFF?text=Image+Unavailable"; // Fallback image
+              e.currentTarget.src = "https://placehold.co/800x450/4B5563/FFFFFF?text=Image+Unavailable"; 
             }}
           />
-          <div className="absolute inset-0 bg-black opacity-20 rounded-xl"></div> {/* Overlay for subtle effect */}
+          <div className="absolute inset-0 bg-black opacity-20 rounded-xl"></div>
         </div>
         <p className="text-xl sm:text-2xl text-gray-300 mb-10 max-w-2xl mx-auto">
           Experience the perfect brew every time, a moment of pure bliss in every cup.
         </p>
         <button
           className="bg-amber-500 hover:bg-amber-600 text-gray-900 font-bold py-3 px-8 rounded-full shadow-lg transform transition-transform duration-300 hover:scale-105 focus:outline-none focus:ring-4 focus:ring-amber-300"
-          onClick={() => navigate("/menu")} // Replace with actual navigation to menu
+          onClick={() => navigate("/menu")}
         >
           Explore Our Menu
         </button>

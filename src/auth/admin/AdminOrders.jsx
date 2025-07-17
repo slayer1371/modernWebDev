@@ -1,96 +1,3 @@
-// import React, { useEffect, useState } from "react";
-// import { fetchInProgressOrders, markOrderReady } from "../../hooks/CoffeeModelService";
-
-
-// export function AdminOrders() {
-//   const [orders, setOrders] = useState([]);
-//   const [loading, setLoading] = useState(true);
-//   const [error, setError] = useState(null);
-//   const [actionMessage, setActionMessage] = useState("");
-
-//   useEffect(() => {
-//     const fetchOrders = async () => {
-//       setLoading(true);
-//       setError(null);
-//       try {
-//         const results = await fetchInProgressOrders();
-//         setOrders(results);
-//       } catch (e) {
-//         setError("Failed to fetch orders.");
-//         console.log(e);
-//       } finally {
-//         setLoading(false);
-//       }
-//     };
-//     fetchOrders();
-//   }, []);
-
-//   const handleMarkReady = async (orderId) => {
-//     setActionMessage("");
-//     try {
-//       await markOrderReady(orderId);
-//       setOrders(orders => orders.filter(o => o.id !== orderId));
-//       setActionMessage("Order marked as Ready.");
-//     } catch (err) {
-//       setActionMessage("Failed to update order status.");
-//       console.log(err);
-//     }
-//   };
-
-//   if (loading) return <div className="p-8 text-center">Loading orders...</div>;
-//   if (error) return <div className="p-8 text-center text-red-600">{error}</div>;
-
-//   return (
-//     <div className="container mx-auto p-6">
-//       <h1 className="text-3xl font-bold mb-6">Admin: In Progress Orders</h1>
-//       {actionMessage && <div className="mb-4 text-green-700">{actionMessage}</div>}
-//       {orders.length === 0 ? (
-//         <div className="text-gray-600">No in-progress orders.</div>
-//       ) : (
-//         <table className="min-w-full border border-gray-300 rounded-lg">
-//           <thead className="bg-gray-100">
-//             <tr>
-//               <th className="px-4 py-2">Order ID</th>
-//               <th className="px-4 py-2">User</th>
-//               <th className="px-4 py-2">Items</th>
-//               <th className="px-4 py-2">Status</th>
-//               <th className="px-4 py-2">Action</th>
-//             </tr>
-//           </thead>
-//           <tbody>
-//             {orders.map(order => (
-//               <tr key={order.id} className="border-t">
-//                 <td className="px-4 py-2">{order.id}</td>
-//                 <td className="px-4 py-2">{order.get("user")?.getUserName() || "Unknown"}</td>
-//                 <td className="px-4 py-2">
-//                   <ul className="list-disc pl-4">
-//                     {(order.get("items") || []).map((item, idx) => (
-//                       <li key={idx}>
-//                         {item.coffee.name} x {item.quantity}
-//                       </li>
-//                     ))}
-//                   </ul>
-//                 </td>
-//                 <td className="px-4 py-2">{order.get("status")}</td>
-//                 <td className="px-4 py-2">
-//                   <button
-//                     className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
-//                     onClick={() => handleMarkReady(order.id)}
-//                   >
-//                     Mark as Ready
-//                   </button>
-//                 </td>
-//               </tr>
-//             ))}
-//           </tbody>
-//         </table>
-//       )}
-//     </div>
-//   );
-// }
-
-// export default AdminOrders; 
-
 import React, { useEffect, useState } from "react";
 import { fetchInProgressOrders, markOrderReady } from "../../hooks/CoffeeModelService"; // Assuming these services exist
 
@@ -198,14 +105,14 @@ export function AdminOrders() {
                   <tr key={order.id} className="hover:bg-gray-50 transition-colors duration-150">
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{order.id}</td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
-                      {/* FIX: Use getUsername() to display the username from the Parse.User object */}
+                      
                       {order.get("user")?.getUsername() || "Unknown User"}
                     </td>
                     <td className="px-6 py-4 text-sm text-gray-700">
                       <ul className="list-disc pl-4 space-y-1">
                         {(order.get("items") || []).map((item, idx) => (
                           <li key={idx} className="text-gray-600">
-                            {/* Ensure item.coffee and item.coffee.name exist */}
+                            
                             {item.coffee?.name || 'Unknown Coffee'} x {item.quantity}
                           </li>
                         ))}

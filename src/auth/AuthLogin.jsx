@@ -5,30 +5,29 @@ import { useNavigate } from "react-router-dom"; // Added for potential future na
 import Parse from "parse"; // Added for Parse.User.requestPasswordReset
 
 const AuthLogin = () => {
-  // State to hold the login credentials
+  //  to hold the login credentials
   const [userCredentials, setUserCredentials] = useState({
     email: "",
     password: "",
   });
 
-  // A flag to trigger the login attempt
+  // trigger the login attempt
   const [login, setLogin] = useState(false); // Original login state
 
-  // New states for UI feedback (loading and messages)
+  
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
 
-  // New states for forgot password flow
   const [showForgotPassword, setShowForgotPassword] = useState(false);
   const [resetEmail, setResetEmail] = useState("");
   const [resetMessage, setResetMessage] = useState("");
 
-  const navigate = useNavigate(); // Initialize navigate hook (not used in provided logic, but kept for context)
+  const navigate = useNavigate(); 
 
   useEffect(() => {
     if (userCredentials.email && userCredentials.password && login) {
-      setLoading(true); // Start loading when login attempt begins
-      setMessage(""); // Clear any previous messages
+      setLoading(true); 
+      setMessage(""); 
 
       LoginUser({
         username: userCredentials.email,
@@ -36,27 +35,27 @@ const AuthLogin = () => {
       })
         .then((userLoggedIn) => {
           if (userLoggedIn) {
-            // Replaced alert with setMessage for better UI
             setMessage(`Welcome back, ${userLoggedIn.get("firstName")}!`);
             console.log("User logged in:", userLoggedIn);
-            // Example: localStorage.setItem("token", userLoggedIn.getSessionToken());
-            // navigate("/blogs"); // Uncomment if you want to redirect after login
+            navigate("/");           // ← add this to send them to home
+
+           
           } else {
             setMessage("Login failed. Please check your credentials.");
           }
-          setLogin(false); // Reset original login flag
+          setLogin(false); 
         })
         .catch((error) => {
           console.error("Login failed:", error);
           // Set error message for display
           setMessage(`Login failed: ${error.message || "An unexpected error occurred."}`);
-          setLogin(false); // Reset original login flag
+          setLogin(false); 
         })
         .finally(() => {
-          setLoading(false); // Stop loading regardless of success or failure
+          setLoading(false); 
         });
     }
-  }, [userCredentials, login, navigate]); // navigate added to dependency array for correctness
+  }, [userCredentials, login, navigate]); 
 
   const handlePasswordReset = async (e) => {
     e.preventDefault();
@@ -143,7 +142,7 @@ const AuthLogin = () => {
               <button
                 type="submit"
                 className="cursor-pointer w-full bg-blue-600 text-white font-semibold py-2.5 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors duration-200"
-                disabled={login || loading} // Disable button if login is in progress or loading
+                disabled={login || loading} 
               >
                 Login
               </button>

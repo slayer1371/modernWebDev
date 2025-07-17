@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-
+import { useNavigate } from "react-router-dom";
 import { Register } from "../hooks/AuthService";
 import AuthForm from "./AuthForm";
 
@@ -10,8 +10,9 @@ const AuthRegister = () => {
     email: "",
     password: "",
   });
+  const navigate = useNavigate();
 
-  // flag is the state to watch for add/remove updates
+  
   const [add, setAdd] = useState(false);
 
   useEffect(() => {
@@ -20,7 +21,9 @@ const AuthRegister = () => {
         if (userCreated) {
           alert(
             `${userCreated.get("firstName")}, you successfully registered!`
+            
           );
+          navigate("/");
         }
         setAdd(false);
       });
