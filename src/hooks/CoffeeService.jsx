@@ -1,4 +1,3 @@
-// CoffeeService.jsx
 import { fetchAllWithReviews } from './CoffeeModelService.jsx';
 
  //Fetch coffees + their reviews via fetchAllwithReviews
@@ -19,20 +18,3 @@ import { fetchAllWithReviews } from './CoffeeModelService.jsx';
   }));
 }
 
-
-//Coffee and CoffeeReviews are 2 seperate classes. Through documentation, we tried accessing the
-// values through query.include('reviews'), which was stored as an array of pointers, like so - 
-// [
-//   {
-//     "__type": "Pointer",
-//     "className": "CoffReview",
-//     "objectId": "LfPZo7IIs5"
-//   },
-//   {
-//     "__type": "Pointer",
-//     "className": "CoffReview",
-//     "objectId": "fFRPJKzg8r"
-//   }
-// ]
-
-// and directly access the values in CoffReview class. 

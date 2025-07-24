@@ -1,83 +1,3 @@
-// import React, { useEffect, useState } from "react";
-// import Parse from "parse";
-
-// function MyOrders() {
-//   const [orders, setOrders] = useState([]);
-//   const [loading, setLoading] = useState(true);
-//   const [error, setError] = useState(null);
-
-//   useEffect(() => {
-//     const fetchOrders = async () => {
-//       setLoading(true);
-//       setError(null);
-//       try {
-//         const user = Parse.User.current();
-//         if (!user) {
-//           setError("You must be logged in to view your orders.");
-//           setLoading(false);
-//           return;
-//         }
-//         const Order = Parse.Object.extend("Order");
-//         const query = new Parse.Query(Order);
-//         query.equalTo("user", user);
-//         query.descending("createdAt");
-//         const results = await query.find();
-//         setOrders(results);
-//       } catch (err) {
-//         setError("Failed to fetch orders.");
-//         console.log(err);
-        
-//       } finally {
-//         setLoading(false);
-//       }
-//     };
-//     fetchOrders();
-//   }, []);
-
-//   if (loading) return <div className="p-8 text-center">Loading your orders...</div>;
-//   if (error) return <div className="p-8 text-center text-red-600">{error}</div>;
-
-//   return (
-//     <div className="container mx-auto p-6">
-//       <h1 className="text-3xl font-bold mb-6">My Orders</h1>
-//       {orders.length === 0 ? (
-//         <div className="text-gray-600">You have no orders yet.</div>
-//       ) : (
-//         <table className="min-w-full border border-gray-300 rounded-lg">
-//           <thead className="bg-gray-100">
-//             <tr>
-//               <th className="px-4 py-2">Order ID</th>
-//               <th className="px-4 py-2">Status</th>
-//               <th className="px-4 py-2">Items</th>
-//               <th className="px-4 py-2">Date</th>
-//             </tr>
-//           </thead>
-//           <tbody>
-//             {orders.map(order => (
-//               <tr key={order.id} className="border-t">
-//                 <td className="px-4 py-2">{order.id}</td>
-//                 <td className="px-4 py-2">{order.get("status")}</td>
-//                 <td className="px-4 py-2">
-//                   <ul className="list-disc pl-4">
-//                     {(order.get("items") || []).map((item, idx) => (
-//                       <li key={idx}>
-//                         {item.coffee.name} x {item.quantity}
-//                       </li>
-//                     ))}
-//                   </ul>
-//                 </td>
-//                 <td className="px-4 py-2">{order.createdAt?.toLocaleString()}</td>
-//               </tr>
-//             ))}
-//           </tbody>
-//         </table>
-//       )}
-//     </div>
-//   );
-// }
-
-// export default MyOrders;
-
 import React, { useEffect, useState } from "react";
 import Parse from "parse"; // Ensure Parse is imported
 
@@ -102,15 +22,11 @@ function MyOrders() {
         const query = new Parse.Query(Order);
         query.equalTo("user", user);
         query.descending("createdAt");
-        // IMPORTANT: Include the 'items' field if it contains pointers or relations
-        // For array of objects, direct access is usually fine, but if 'coffee' within 'items'
-        // were a pointer to 'Coffee' object, you'd need query.include('items.coffee')
-        // Based on your CartPage, 'items' is an array of objects like { coffeeId, quantity, coffee: { name, price } }
-        // so direct access should work.
+        
         const results = await query.find();
 
         // Assuming 'items' array already contains 'coffee' object with 'name' property
-        // from when it was saved in the Cart/Order
+       
         setOrders(results);
       } catch (err) {
         setError("Failed to fetch orders.");
@@ -120,7 +36,7 @@ function MyOrders() {
       }
     };
     fetchOrders();
-  }, []); // Logic unchanged: runs once on mount
+  }, []);
 
   // Helper function to get status badge styling
   const getStatusBadgeClass = (status) => {
@@ -129,9 +45,9 @@ function MyOrders() {
         return "bg-yellow-100 text-yellow-800";
       case "Ready":
         return "bg-green-100 text-green-800";
-      case "Delivered": // Example for future status
+      case "Delivered":
         return "bg-blue-100 text-blue-800";
-      case "Cancelled": // Example for future status
+      case "Cancelled": 
         return "bg-red-100 text-red-800";
       default:
         return "bg-gray-100 text-gray-800";
@@ -173,7 +89,7 @@ function MyOrders() {
             </p>
           </div>
         ) : (
-          <div className="overflow-x-auto"> {/* Ensures table is responsive */}
+          <div className="overflow-x-auto">
             <table className="min-w-full bg-white border border-gray-200 rounded-lg shadow-sm">
               <thead className="bg-gray-50">
                 <tr>

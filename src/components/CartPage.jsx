@@ -17,7 +17,6 @@ function CartPage() {
       try {
         const user = Parse.User.current();
         if (!user) {
-          // If no user is logged in, set an error and stop loading
           setError("You must be logged in to view your cart.");
           setLoading(false);
           return;
@@ -25,19 +24,16 @@ function CartPage() {
 
         // Fetch the user's cart object from Parse
         const cartObj = await getUserCart(user);
-        // Get the raw items array from the cart object, default to empty array if no cart or no items
+        // Get the raw items array from the cart object
         const rawCartItems = cartObj ? cartObj.get("items") || [] : [];
 
         let enrichedCartItems = [];
         let totalPrice = 0;
 
-        // Only proceed if there are items in the cart
         if (rawCartItems.length > 0) {
           const Coffee = Parse.Object.extend("Coffee");
           const query = new Parse.Query(Coffee);
-          // Extract all unique coffeeIds from the raw cart items
           const coffeeIds = rawCartItems.map(item => item.coffeeId);
-          // Query Parse for all Coffee objects whose objectId is in the coffeeIds list
           query.containedIn("objectId", coffeeIds);
           const coffees = await query.find();
 
@@ -52,24 +48,23 @@ function CartPage() {
               const itemPrice = coffeeDetails.get("price") || 0;
               totalPrice += itemPrice * item.quantity;
               return {
-                ...item, // Keep existing properties (coffeeId, quantity)
-                coffee: { // Attach a clean object with relevant coffee details
+                ...item,
+                coffee: { 
                   id: coffeeDetails.id,
                   name: coffeeDetails.get("name"),
                   price: itemPrice,
-                  // Add any other properties you might need for display, e.g., description, imageUrl
+                  
                 }
               };
             }
-            // If coffee details are not found (e.g., coffee was deleted), return item with null coffee
+            // If coffee details are not found , return item with null coffee
             return {
               ...item,
-              coffee: null // Indicate that coffee details are missing
+              coffee: null
             };
           });
         }
 
-        // Update state with the fully enriched items and calculated total
         setItems(enrichedCartItems);
         setTotal(totalPrice);
 
@@ -81,7 +76,7 @@ function CartPage() {
       }
     };
     fetchCart();
-  }, []); // Empty dependency array means this effect runs once on mount
+  }, []); 
 
   const handleCheckout = async () => {
     setOrderMessage("");
@@ -100,7 +95,6 @@ function CartPage() {
       setOrderMessage("Order placed successfully! Thank you for your purchase.");
       setItems([]);
       setTotal(0);
-      // Optionally, clear the cart in Parse as well
       const cartObj = await getUserCart(user);
       if (cartObj) {
         cartObj.set("items", []);

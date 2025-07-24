@@ -4,7 +4,7 @@ import { logout } from "../hooks/useAuth";
 import { useState, useEffect } from "react";
 
 const AuthModule = () => {
-  // State to track if the user is logged in. Initialized based on current Parse user.
+  // to track if the user is logged in.
   const [isLoggedIn, setIsLoggedIn] = useState(!!Parse.User.current());
   const navigate = useNavigate(); 
   
@@ -14,13 +14,13 @@ const AuthModule = () => {
     }, 2000); // Checks every 2 seconds
 
     return () => clearInterval(interval);
-  }, []); // Empty dependency array ensures this effect runs only once on mount
+  }, []);
 
   // Handler for the logout button click
   const handleLogout = async () => {
     try {
-      await logout(); // Called the logout function from the useAuth hook
-      setIsLoggedIn(false); // Updated local state to reflect logged out status
+      await logout(); // Called the logout function 
+      setIsLoggedIn(false); 
       navigate("/"); 
     } catch (error) {
       console.error("Logout failed:", error);
@@ -31,7 +31,6 @@ const AuthModule = () => {
   const currentUser = Parse.User.current();
   const username = currentUser ? currentUser.getUsername() : "Guest";
 
-  // Conditional rendering based on login status
   if (isLoggedIn) {
     return (
       <div className="flex flex-col items-center justify-center p-6 bg-white rounded-lg shadow-xl text-center">

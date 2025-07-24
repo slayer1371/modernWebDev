@@ -7,7 +7,7 @@ const AuthForm = ({ user, onChange, onSubmit }) => {
         </h2>
         <form onSubmit={onSubmit} className="space-y-6">
           
-          {!user.isLogin && ( // Assuming 'isLogin' prop determines if it's a login or signup form
+          {!user.isLogin && (
             <div>
               <label htmlFor="firstName" className="block text-sm font-medium text-gray-700 mb-1">
                 First Name
