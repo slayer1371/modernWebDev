@@ -1,25 +1,50 @@
 # Changelog
 
-## [0.3.0] - 2025-07-17
+All notable changes to this project are documented in this file.
 
+## [0.3.0] – 2025‑07‑26
 ### Added
-- **ProtectedRoute** component to guard routes requiring authentication  
-- **AdminRoute** component to guard admin‑only routes  
-- **PublicRoute** to prevent logged‑in users from accessing login/signup pages  
-- Automatic **redirect to Home** after successful Login and Registration  
-- “Forgot Password” flow in **AuthLogin** with Parse reset email  
-- **View Details** modal on menu cards showing per‑coffee image, description, calories, sugar, benefits  
-- Detailed comments throughout the codebase (> 5) to explain logic, mark TODOs, and document future work  
-- **AuthService** moved into its own hook (`hooks/AuthService.jsx`)  
+- **Authentication & Authorization**  
+  - Login, Register and “Forgot Password” flows using Parse.  
+  - `ProtectedRoute` wraps all routes that require authentication.  
+  - `AdminRoute` wraps admin‑only routes (e.g. `/admin/orders`).  
+- **Redirection Rules**  
+  - Unauthenticated access to protected routes redirects to `/auth`.  
+  - Authenticated users trying to access `/auth`, `/login`, or `/register` are sent back to `/`.  
+- **New Pages & Components**  
+  - `AuthLogin.jsx`, `AuthRegister.jsx`, with form validation and UI feedback.  
+  - `MyOrders.jsx` for users to view their order history.  
+  - `AdminOrders.jsx` for admins to manage in‑progress orders.  
+- **Code Quality**  
+  - > 5 comments added across HTML/JSX/JS for clarity and future notes.  
+  - Auth logic extracted into `AuthService.jsx`; coffee‑related logic into `CoffeeModelService.jsx`.  
 
 ### Changed
-- Version bumped to **0.3.0**  
-- All protected routes (`/cart`, `/my‑orders`, `/admin/orders`) now redirect to `/auth` if unauthenticated  
-- Auth routes (`/auth`, `/login`, `/register`) now redirect to `/` if already logged in  
-- Extracted authentication logic into **AuthService** (register/login) and **useAuth** (isAuthenticated/logout/isAdmin) hooks  
+- Routing upgraded to React Router v7; wrap routes in `<ProtectedRoute>` and `<PublicRoute>`.  
+- Navbar (`Navbar.jsx`) reflects login state via `AuthNav` module.  
+- Project version bumped to **0.3.0** in `package.json`.  
 
-### Fixed
-- Users previously stayed on login/register page after auth — now redirect correctly  
-- Ensured manual URL typing into protected routes triggers redirect to `/auth` when not logged in  
+---
 
-> This release completes the core authentication and authorization flows, adds in‑app coffee detail modals, and lays the groundwork for future admin and user‑profile features.
+## [0.2.0] – 2025‑07‑20
+### Added
+- **Routing & Parsing**  
+  - Defined top‑level `<Routes>` in `Components.jsx`.  
+  - `PublicRoute` to guard login/register pages.  
+- **Menu & Cart**  
+  - `MenuPage.jsx` displays coffees fetched via `CoffeeService.jsx`.  
+  - “Add to Cart” and basic cart UI in `CartPage.jsx`.  
+
+### Changed
+- Vite/TailwindCSS setup finalized.  
+- ESLint rules applied project‑wide.
+
+---
+
+## [0.1.0] – 2025‑07‑15
+### Added
+- **Component Architecture**  
+  - Scaffolded core components: `HomePage`, `MenuPage`, `CartPage`, `Navbar`.  
+  - Basic layout and styling with TailwindCSS.  
+- **Tooling**  
+  - Initialized with Vite, React 19, Tailwind v4, ESLint.  
