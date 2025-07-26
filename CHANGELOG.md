@@ -1,17 +1,25 @@
 # Changelog
-## [0.3.0] – 2025-07-10
-### Added
-- Feature 5 - Auth Module
-- Implemented Login and Register using Parse _User class.
-- ProtectedRoute component and route guards for CartPage.
-- PublicRoute to block auth pages when already logged in
-- Extracted auth logic into `useAuth` service
-- Used TailwindCSS to style all pages.
 
-## [0.2.0] - 2025-07-02
+## [0.3.0] - 2025-07-17
+
 ### Added
-- Feature 4: React Router (Home, Menu, Cart)
-- Added React Routing for HomePage, MenuPage, CartPage, and a 404 route.
-- `models/CoffeeModel.js` with one to many relationship (`reviews`)
-- `CoffeeService.jsx` uses `CoffeeModel` for async fetch
-- UML & component tree in README
+- **ProtectedRoute** component to guard routes requiring authentication  
+- **AdminRoute** component to guard admin‑only routes  
+- **PublicRoute** to prevent logged‑in users from accessing login/signup pages  
+- Automatic **redirect to Home** after successful Login and Registration  
+- “Forgot Password” flow in **AuthLogin** with Parse reset email  
+- **View Details** modal on menu cards showing per‑coffee image, description, calories, sugar, benefits  
+- Detailed comments throughout the codebase (> 5) to explain logic, mark TODOs, and document future work  
+- **AuthService** moved into its own hook (`hooks/AuthService.jsx`)  
+
+### Changed
+- Version bumped to **0.3.0**  
+- All protected routes (`/cart`, `/my‑orders`, `/admin/orders`) now redirect to `/auth` if unauthenticated  
+- Auth routes (`/auth`, `/login`, `/register`) now redirect to `/` if already logged in  
+- Extracted authentication logic into **AuthService** (register/login) and **useAuth** (isAuthenticated/logout/isAdmin) hooks  
+
+### Fixed
+- Users previously stayed on login/register page after auth — now redirect correctly  
+- Ensured manual URL typing into protected routes triggers redirect to `/auth` when not logged in  
+
+> This release completes the core authentication and authorization flows, adds in‑app coffee detail modals, and lays the groundwork for future admin and user‑profile features.
