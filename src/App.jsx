@@ -11,7 +11,7 @@ Parse.serverURL = env_vars.serverURL;
 function App() {
   return (
     <Components />
-  );
+  ); 
 }
 
 export default App;

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Parse from "parse"; // Ensure Parse is imported
+import { Link } from "react-router-dom";
 
 function MyOrders() {
   const [orders, setOrders] = useState([]);
@@ -24,8 +25,6 @@ function MyOrders() {
         query.descending("createdAt");
         
         const results = await query.find();
-
-        // Assuming 'items' array already contains 'coffee' object with 'name' property
        
         setOrders(results);
       } catch (err) {
@@ -45,12 +44,6 @@ function MyOrders() {
         return "bg-yellow-100 text-yellow-800";
       case "Ready":
         return "bg-green-100 text-green-800";
-      case "Delivered":
-        return "bg-blue-100 text-blue-800";
-      case "Cancelled": 
-        return "bg-red-100 text-red-800";
-      default:
-        return "bg-gray-100 text-gray-800";
     }
   };
 
@@ -112,7 +105,6 @@ function MyOrders() {
                       <ul className="list-disc pl-4 space-y-1">
                         {(order.get("items") || []).map((item, idx) => (
                           <li key={idx} className="text-gray-600">
-                            {/* Ensure item.coffee and item.coffee.name exist */}
                             {item.coffee?.name || 'Unknown Coffee'} x {item.quantity}
                           </li>
                         ))}

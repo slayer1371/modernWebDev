@@ -27,7 +27,7 @@ function CartPage() {
         // Get the raw items array from the cart object
         const rawCartItems = cartObj ? cartObj.get("items") || [] : [];
 
-        let enrichedCartItems = [];
+        let enrichedCartItems = []; 
         let totalPrice = 0;
 
         if (rawCartItems.length > 0) {

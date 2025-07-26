@@ -27,17 +27,10 @@ const AuthModule = () => {
     }
   };
 
-  // Get the current user's username for display
-  const currentUser = Parse.User.current();
-  const username = currentUser ? currentUser.getUsername() : "Guest";
 
   if (isLoggedIn) {
     return (
       <div className="flex flex-col items-center justify-center p-6 bg-white rounded-lg shadow-xl text-center">
-        <h2 className="text-3xl font-extrabold text-gray-900 mb-2">
-          Welcome back, <span className="text-amber-600">{username}!</span>
-        </h2>
-        <p className="text-gray-600 mb-6">Ready for your next coffee adventure?</p>
         <button
           onClick={handleLogout}
           className="cursor-pointer text-white bg-gradient-to-r from-red-500 to-red-700 hover:from-red-600 hover:to-red-800 focus:outline-none focus:ring-4 focus:ring-red-300 font-medium rounded-full text-sm px-6 py-2.5 shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out"

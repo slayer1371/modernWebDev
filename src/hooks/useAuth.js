@@ -4,7 +4,7 @@ export function isAuthenticated() {
   return !!Parse.User.current();
 }
 
-export async function logout() {
+export async function logout() { 
   await Parse.User.logOut();
 } 
 

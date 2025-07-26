@@ -6,19 +6,11 @@ import CartPage from "./components/CartPage";
 import AuthModule from "./auth/Auth";
 import AuthRegister from "./auth/AuthRegister";
 import AuthLogin from "./auth/AuthLogin";
-import ProtectedRoute from "./components/ProtectedRoute";
-import Parse from "parse";
+import ProtectedRoute from "./auth/ProtectedRoute";
 import AdminRoute from "./auth/admin/AdminRoute";
 import AdminOrders from "./auth/admin/AdminOrders";
 import MyOrders from "./components/Myorder";
-
-
-function PublicRoute({ children }) {
-  if (Parse.User.current()) {
-    return <Navigate to="/" replace />;
-  }
-  return children;
-}
+import PublicRoute from "./auth/PublicRoute"; 
 
 export function Components() {
     return <div>

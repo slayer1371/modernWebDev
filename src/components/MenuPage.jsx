@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Parse from "parse";
 import { fetchCoffees } from "../hooks/CoffeeService";
 import { addToCart } from "../hooks/CoffeeModelService";
-import { Star, ShoppingCart, X } from "lucide-react";
+import { Star, ShoppingCart, X, MessageSquare } from "lucide-react";
 
 export default function MenuPage() {
   const coffeeDetails = {
@@ -120,7 +120,7 @@ export default function MenuPage() {
   const openModal = (coffee) => setSelectedCoffee(coffee);
   const closeModal = () => setSelectedCoffee(null);
 
-  if (loading) return <div className="min-h-screen flex items-center justify-center">Loading…</div>;
+  if (loading) return <div className="min-h-screen text-xl font-semibold flex items-center justify-center">Loading menu…</div>;
   if (error) return <div className="min-h-screen flex items-center justify-center">Error loading menu.</div>;
 
   // fall‑back if a coffee isn’t listed in your details map
@@ -165,15 +165,16 @@ export default function MenuPage() {
               <div className="flex gap-2">
                 <button
                   onClick={() => handleAddToCart(coffee.id, coffee.name)}
-                  className="flex-1 inline-flex items-center justify-center px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 text-sm"
+                  className="cursor-pointer flex-1 inline-flex items-center justify-center px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 text-sm"
                 >
                   <ShoppingCart className="w-4 h-4 mr-2" />
                   Add to Cart
                 </button>
                 <button
                   onClick={() => openModal(coffee)}
-                  className="flex-1 inline-flex items-center justify-center px-4 py-2 border border-gray-300 rounded-md hover:bg-gray-100 text-sm"
+                  className="cursor-pointer flex-1 inline-flex items-center justify-center px-4 py-2 border border-gray-300 rounded-md hover:bg-gray-100 text-sm"
                 >
+                <MessageSquare className="w-4 h-4 mr-2" />
                   View Details
                 </button>
               </div>
@@ -184,8 +185,8 @@ export default function MenuPage() {
 
       {selectedCoffee && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-          <div className="bg-white rounded-lg shadow-xl max-w-lg w-full p-6 relative">
-            <button onClick={closeModal} className="absolute top-4 right-4">
+          <div className="bg-white rounded-lg shadow-xl max-w-lg w-full p-9 relative">
+            <button onClick={closeModal} className="absolute top-4 right-4 cursor-pointer">
               <X className="w-6 h-6 text-gray-600" />
             </button>
             <img
